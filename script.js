@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
   const openBtn = document.getElementById('open');
   const card = document.getElementById('card');
@@ -14,10 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  if (openBtn) {
-    openBtn.addEventListener('click', showCard);
-  }
+  if (openBtn) openBtn.addEventListener('click', showCard);
 
+  // Reveal для текста
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }, { threshold: 0.2 });
-
   reveals.forEach((el) => revealObserver.observe(el));
 
+  // Reveal для фотографий
   const shotObserver = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }, { threshold: 0.3 });
-
   shots.forEach((el) => shotObserver.observe(el));
 
+  // Переключение деталей
   if (toggleDetails && details) {
     toggleDetails.addEventListener('click', () => {
       const isOpen = details.classList.toggle('open');
@@ -48,12 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Персонализация по ?name=
   const params = new URLSearchParams(location.search);
   const name = params.get('name');
   if (name) {
     const subtitle = document.getElementById('subtitle');
-    if (subtitle) {
-      subtitle.textContent = `${name}, мы будем счастливы видеть вас на нашей свадьбе`;
-    }
+    if (subtitle) subtitle.textContent = `${name}, мы будем счастливы видеть вас на нашей свадьбе`;
   }
 });

@@ -1,7 +1,11 @@
-:root{ --bg:#f7f3ef; --card:#ffffff; --accent:#8c6b5b; --text:#2b2b2b; --muted:#6b6b6b; }
-*{ box-sizing:border-box }
-html,body{ height:100%; scroll-behavior:smooth }
-body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:var(--bg) }
+
+:root{
+  --bg:#f2f7fb;
+  --card:#ffffff;
+  --accent:#2f80ed;   /* насыщенный голубой */
+  --text:#243447;     /* тёмно-синий для текста */
+  --muted:#6b7c93;    /* приглушённый */
+}
 
 /* Hero */
 .hero{
@@ -20,6 +24,7 @@ body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-s
 h1{
   margin:6px 0 8px; font-size:40px; color:#fff; text-shadow:0 2px 16px rgba(0,0,0,.25);
   opacity:0; transform:translateY(16px); animation:fadeUp .8s ease .35s forwards;
+  letter-spacing: 0.2px; line-height: 1.15;
 }
 .subtitle{
   color:#f0ebe7; margin-bottom:18px; font-size:16px;
@@ -63,7 +68,7 @@ h1{
 
 /* Sections */
 .section{ padding:18px; border-top:1px dashed rgba(0,0,0,.08) }
-.section h3{ margin:0 0 10px; font-size:18px; color:var(--accent) }
+.section h3{ margin:0 0 10px; font-size:18px; color:var(--accent); letter-spacing:.2px; line-height:1.2 }
 .muted{ color:var(--muted) }
 a{ color:var(--accent); text-decoration:none }
 
@@ -76,7 +81,7 @@ a{ color:var(--accent); text-decoration:none }
 .details.open{ max-height:800px; opacity:1 }
 .btn{
   display:inline-block; margin:10px 0; padding:10px 14px; border-radius:10px; border:1px solid rgba(0,0,0,.08);
-  background:#faf7ф5; color:#5b4b43; cursor:pointer; transition:background .2s ease;
+  background:#faf7f5; color:#5b4b43; cursor:pointer; transition:background .2s ease;
 }
 .btn:hover{ background:#f0ebe7 }
 
@@ -88,3 +93,5 @@ a{ color:var(--accent); text-decoration:none }
   h1{ font-size:32px }
   .shot{ min-width:82%; max-width:82%; height:200px }
 }
+
+
