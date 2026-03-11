@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Свадебное приглашение</title>
+  <meta name="description" content="Электронное приглашение на свадьбу"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <!-- Верхний блок (герой) -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">С ♥ B</div>
+      <h1>Виктор и Софья</h1>
+      <div class="subtitle" id="subtitle">Мы будем счастливы видеть вас на нашей свадьбе</div>
+      <button class="cta" id="open" type="button">Открыть приглашение</button>
+    </div>
+  </section>
+
+  <!-- Основной контент -->
+  <main class="card" id="card" aria-hidden="true">
+    <div class="topbar">
+      <div class="pill">Суббота, 18 июля 2026</div>
+      <div class="pill">Сбор гостей в 15:00</div>
+      <div class="pill">загородный клуб "Нескучный Сад", Шахты</div>
+    </div>
+
+    <!-- Галерея (горизонтальная прокрутка) -->
+    <div class="gallery" id="gallery">
+      <div class="shot"><img src="https://sun9-50.userapi.com/s/v1/ig2/xUWmZvNaSxjN1CWR0sp-7j97pecbZmu5L-NlUfhwWzq3G94vEloj2doWLv_-GgKEU1vAumvCbLoc7iQWPWLfhEuh.jpg?quality=95&as=32x16,48x24,72x36,108x54,160x80,240x120,360x180,480x240,540x270,640x320,720x360,853x427&from=bu&cs=853x0" alt="Фото пары"><div class="cap">Мы</div></div>
+      <div class="shot"><img src="https://sun9-61.userapi.com/s/v1/ig2/yOwc-V5JawpU9SaZBDh_JFQwib3J3Nrxq0PVx1TGmCe74i9qItfGonVOTzl9_2w-e_makegyKhlOsMolwgYwBsjW.jpg?quality=96&as=32x21,48x32,72x48,108x72,160x107,240x160,360x240,480x320,540x360,640x426,720x480,1080x720,1280x853&from=bu&cs=1280x0" alt="Локация"><div class="cap">Место</div></div>
+      <div class="shot"><img src="https://sun9-35.userapi.com/s/v1/ig2/a4bNC_iXQm4YWrSxHAjP8Q8VCvbSX3UnThX7K4wEhd_JyEJMpeDioiCwK9AAglj8BaOkk2oQr2GIBDUZf_y-BNor.jpg?quality=95&as=32x16,48x24,72x36,108x54,160x80,240x120,360x180,480x240,540x270,640x320,720x360,853x427&from=bu&cs=853x0" alt="Настроение"><div class="cap">Настроение</div></div>
+    </div>
+
+    <section class="section">
+      <h3 class="reveal">Адреса</h3>
+      <p class="reveal">Церемония: ул. Административная 3, город Шахты.</p>
+      <p class="reveal">Банкет: там же</p>
+      <p class="reveal"><a href="https://yandex.ru/profile/1032483483?lang=ru" target="_blank" rel="noopener">Открыть в карте</a></p>
+    </section>
+
+    <section class="section">
+      <h3 class="reveal">Программа</h3>
+      <p class="reveal">15:00 — Сбор гостей, welcome</p>
+      <p class="reveal">15:30 — Церемония</p>
+      <p class="reveal">16:00 — Банкет и танцы</p>
+    </section>
+
+    <section class="section">
+      <h3 class="reveal">Дресс-код</h3>
+      <p class="reveal">Пока не определились</p>
+    </section>
+
+    <section class="section">
+      <h3 class="reveal">Подарки</h3>
+      <p class="reveal">Лучший подарок — ваше присутствие. Если хотите, будем рады конверту или <a href="#" target="_blank" rel="noopener">списку пожеланий</a>.</p>
+    </section>
+
+    <section class="section">
+      <h3 class="reveal">Контакты</h3>
+      <p class="reveal">мой +7 918 594-37-38 (Виктор)</p>
+      <p class="reveal">Вопросы/чат: <a href="#" target="_blank" rel="noopener">наш Telegram</a></p>
+    </section>
+
+    <section class="section">
+      <button class="btn" id="toggleDetails" aria-expanded="false" aria-controls="details">Показать детали</button>
+      <div class="details" id="details">
+        <p class="muted">Парковка у ворот, въезд с ул. Административной. Пожалуйста, подтвердите участие до 01.06.</p>
+      </div>
+    </section>
+
+    <p class="footnote">До встречи! Если нужна помощь с маршрутами — напишите нам.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
