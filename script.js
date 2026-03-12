@@ -1,58 +1,133 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // Музыка и конверт
+  const audio = document.getElementById('bgAudio');
+  const envelopeScreen = document.getElementById('envelopeScreen');
+  const sealBtn = document.getElementById('sealBtn');
 
-document.addEventListener('DOMContentLoaded', function () {
-  const openBtn = document.getElementById('open');
-  const card = document.getElementById('card');
-  const toggleDetails = document.getElementById('toggleDetails');
-  const details = document.getElementById('details');
-  const shots = Array.from(document.querySelectorAll('.shot'));
-  const reveals = Array.from(document.querySelectorAll('.reveal'));
-
-  function showCard() {
-    if (!card.classList.contains('show')) {
-      card.classList.add('show');
-      card.setAttribute('aria-hidden', 'false');
-      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function openEnvelope() {
+    if (!envelopeScreen.classList.contains('open')) {
+      envelopeScreen.classList.add('open');
+      // запуск музыки после клика
+      if (audio) audio.play().catch(()=>{});
     }
   }
+  if (sealBtn) {
+    sealBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openEnvelope();
+    });
+  }
 
-  if (openBtn) openBtn.addEventListener('click', showCard);
-
-  // Reveal для текста
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
+  // Reveal-наблюдатели (плавные появления)
+  const ioUp = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('show');
-        revealObserver.unobserve(e.target);
+        ioUp.unobserve(e.target);
       }
     });
   }, { threshold: 0.2 });
-  reveals.forEach((el) => revealObserver.observe(el));
 
-  // Reveal для фотографий
-  const shotObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
+  document.querySelectorAll('.reveal-up, .reveal-left').forEach(el => ioUp.observe(el));
+
+  // Тайминг: небольшое поочерёдное появление
+  const timingItems = Array.from(document.querySelectorAll('.timeline .time-item'));
+  const ioTiming = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.classList.add('show');
-        shotObserver.unobserve(e.target);
+        const items = timingItems;
+        items.forEach((it, i) => {
+          setTimeout(() => it.classList.add('show'), i * 120);
+        });
+        ioTiming.unobserve(e.target);
       }
     });
-  }, { threshold: 0.3 });
-  shots.forEach((el) => shotObserver.observe(el));
+  }, { threshold: 0.2 });
+  const timingContainer = document.querySelector('.timeline');
+  if (timingContainer) ioTiming.observe(timingContainer);
 
-  // Переключение деталей
-  if (toggleDetails && details) {
-    toggleDetails.addEventListener('click', () => {
-      const isOpen = details.classList.toggle('open');
-      toggleDetails.setAttribute('aria-expanded', String(isOpen));
-      toggleDetails.textContent = isOpen ? 'Скрыть детали' : 'Показать детали';
-    });
+  // Полароиды: добавить класс show к обёрткам (для совместимости, если потребуется)
+  const polaroidsWrap = document.querySelector('.polaroids-wrap');
+  if (polaroidsWrap) ioUp.observe(polaroidsWrap);
+
+  // Слайдер "Пожелания" (2 слайда, автопрокрутка + стрелки + точки)
+  const slider = document.querySelector('.wishes-card');
+  if (slider) {
+    const slides = Array.from(slider.querySelectorAll('.slide'));
+    const dots = Array.from(slider.querySelectorAll('.dot'));
+    const prevBtn = slider.querySelector('.prev');
+    const nextBtn = slider.querySelector('.next');
+    let idx = 0;
+    let autoTimer;
+
+    function setActive(i) {
+      idx = (i + slides.length) % slides.length;
+      slides.forEach((s, si) => s.classList.toggle('is-active', si === idx));
+      dots.forEach((d, di) => {
+        d.classList.toggle('is-active', di === idx);
+        d.setAttribute('aria-selected', di === idx ? 'true' : 'false');
+      });
+    }
+    function next(n = 1) {
+      setActive(idx + n);
+      restartAuto();
+    }
+    function prev() { next(-1); }
+
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(() => next(1), 4000);
+    }
+    function stopAuto() {
+      if (autoTimer) clearInterval(autoTimer);
+    }
+    function restartAuto() {
+      startAuto();
+    }
+
+    // init
+    setActive(0);
+    startAuto();
+
+    if (nextBtn) nextBtn.addEventListener('click', () => next(1));
+    if (prevBtn) prevBtn.addEventListener('click', () => prev());
+    dots.forEach((d, i) => d.addEventListener('click', () => { setActive(i); restartAuto(); }));
+
+    // Останавливать автопрокрутку при взаимодействии пользователя (по желанию)
+    slider.addEventListener('pointerdown', stopAuto);
+    slider.addEventListener('pointerup', startAuto);
+    slider.addEventListener('mouseenter', stopAuto);
+    slider.addEventListener('mouseleave', startAuto);
   }
 
-  // Персонализация по ?name=
-  const params = new URLSearchParams(location.search);
-  const name = params.get('name');
-  if (name) {
-    const subtitle = document.getElementById('subtitle');
-    if (subtitle) subtitle.textContent = `${name}, мы будем счастливы видеть вас на нашей свадьбе`;
+  // Обратный отсчёт (страница 8)
+  const target = new Date('2026-07-18T15:30:00');
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minutesEl = document.getElementById('cd-minutes');
+  const secondsEl = document.getElementById('cd-seconds');
+
+  function updateCountdown() {
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+    const now = new Date();
+    let diff = target - now;
+    if (diff <= 0) {
+      daysEl.textContent = '0';
+      hoursEl.textContent = '0';
+      minutesEl.textContent = '0';
+      secondsEl.textContent = '0';
+      clearInterval(timerId);
+      return;
+    }
+    const sec = Math.floor(diff / 1000) % 60;
+    const min = Math.floor(diff / (1000 * 60)) % 60;
+    const hrs = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    daysEl.textContent = String(d);
+    hoursEl.textContent = String(hrs).padStart(2, '0');
+    minutesEl.textContent = String(min).padStart(2, '0');
+    secondsEl.textContent = String(sec).padStart(2, '0');
   }
+  const timerId = setInterval(updateCountdown, 1000);
+  updateCountdown();
 });

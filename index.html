@@ -3,79 +3,181 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Свадебное приглашение</title>
+  <title>Свадебное приглашение — Виктор и Софья</title>
   <meta name="description" content="Электронное приглашение на свадьбу Виктора и Софьи"/>
-  <!-- Google Fonts: Playfair Display -->
+  <!-- Шрифт -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <!-- Верхний блок (герой) -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="badge">С ♥ В</div>
-      <h1>Виктор и Софья</h1>
-      <div class="subtitle" id="subtitle">Мы будем счастливы видеть вас на нашей свадьбе</div>
-      <button class="cta" id="open" type="button">Открыть приглашение</button>
+  <!-- Музыка (замените src на свой mp3 https) -->
+  <audio id="bgAudio" preload="auto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0a5c4e8a8e.mp3?filename=romantic-ambient-10944.mp3" loop></audio>
+
+  <!-- Страница 1: Конверт (две створки, печать-кнопка) -->
+  <section class="envelope-screen" id="envelopeScreen" aria-label="Открыть приглашение">
+    <!-- Верхняя створка -->
+    <div class="flap flap-top"></div>
+    <!-- Нижняя створка -->
+    <div class="flap flap-bottom"></div>
+
+    <!-- Подглядывающие боковые края второй страницы -->
+    <div class="peek peek-left"></div>
+    <div class="peek peek-right"></div>
+
+    <!-- Контент -->
+    <div class="envelope-center">
+      <h1 class="envelope-title">ПРИГЛАШЕНИЕ<br>НА СВАДЬБУ</h1>
+      <button class="seal-btn" id="sealBtn" aria-label="Открыть">
+        <span class="seal-emboss">S&nbsp;V</span>
+      </button>
+      <div class="envelope-hint">нажмите,<br>чтобы открыть</div>
     </div>
   </section>
 
-  <!-- Основной контент -->
-  <main class="card" id="card" aria-hidden="true">
-    <div class="topbar">
-      <div class="pill">Суббота, 18 июля 2026</div>
-      <div class="pill">Сбор гостей в 15:00</div>
-      <div class="pill">Загородный клуб «Нескучный Сад», Шахты</div>
-    </div>
-
-    <!-- Галерея (горизонтальная прокрутка) -->
-    <div class="gallery" id="gallery">
-      <div class="shot"><img loading="lazy" src="https://sun9-50.userapi.com/s/v1/ig2/xUWmZvNaSxjN1CWR0sp-7j97pecbZmu5L-NlUfhwWzq3G94vEloj2doWLv_-GgKEU1vAumvCbLoc7iQWPWLfhEuh.jpg?quality=95&cs=853x0" alt="Фото пары"><div class="cap">Мы</div></div>
-      <div class="shot"><img loading="lazy" src="https://sun9-61.userapi.com/s/v1/ig2/yOwc-V5JawpU9SaZBDh_JFQwib3J3Nrxq0PVx1TGmCe74i9qItfGonVOTzl9_2w-e_makegyKhlOsMolwgYwBsjW.jpg?quality=96&cs=1280x0" alt="Локация"><div class="cap">Место</div></div>
-      <div class="shot"><img loading="lazy" src="https://sun9-35.userapi.com/s/v1/ig2/a4bNC_iXQm4YWrSxHAjP8Q8VCvbSX3UnThX7K4wEhd_JyEJMpeDioiCwK9AAglj8BaOkk2oQr2GIBDUZf_y-BNor.jpg?quality=95&cs=853x0" alt="Настроение"><div class="cap">Настроение</div></div>
-    </div>
-
-    <section class="section">
-      <h3 class="reveal">Адреса</h3>
-      <p class="reveal">Церемония: ул. Административная 3, город Шахты.</p>
-      <p class="reveal">Банкет: там же</p>
-      <p class="reveal"><a href="https://yandex.ru/profile/1032483483?lang=ru" target="_blank" rel="noopener">Открыть в карте</a></p>
-    </section>
-
-    <section class="section">
-      <h3 class="reveal">Программа</h3>
-      <p class="reveal">15:00 — Сбор гостей, welcome</p>
-      <p class="reveal">15:30 — Церемония</p>
-      <p class="reveal">16:00 — Банкет и танцы</p>
-    </section>
-
-    <section class="section">
-      <h3 class="reveal">Дресс-код</h3>
-      <p class="reveal">Пока не определились</p>
-    </section>
-
-    <section class="section">
-      <h3 class="reveal">Подарки</h3>
-      <p class="reveal">Лучший подарок — ваше присутствие. Если хотите, будем рады конверту или <a href="#" target="_blank" rel="noopener">списку пожеланий</a>.</p>
-    </section>
-
-    <section class="section">
-      <h3 class="reveal">Контакты</h3>
-      <p class="reveal">мой +7 918 594-37-38 (Виктор)</p>
-      <p class="reveal">Вопросы/чат: <a href="#" target="_blank" rel="noopener">наш Telegram</a></p>
-    </section>
-
-    <section class="section">
-      <button class="btn" id="toggleDetails" aria-expanded="false" aria-controls="details">Показать детали</button>
-      <div class="details" id="details">
-        <p class="muted">Парковка у ворот, въезд с ул. Административной. Пожалуйста, подтвердите участие до 01.06.</p>
+  <!-- Страница 2: Полароидные фото + имена -->
+  <section class="page page-polaroids" id="page2" aria-label="Знакомство">
+    <div class="polaroids-wrap">
+      <div class="polaroid p-left reveal-float">
+        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1200&auto=format&fit=crop" alt="Фото 1 (замените)">
+        <div class="caption">— интересно, кто будет моим мужем, когда я вырасту?</div>
       </div>
-    </section>
+      <div class="polaroid p-right reveal-float">
+        <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?q=80&w=1200&auto=format&fit=crop" alt="Фото 2 (замените)">
+        <div class="caption">— им буду я</div>
+      </div>
+    </div>
+    <div class="names">Виктор&nbsp;и&nbsp;Софья</div>
+    <div class="scroll-indicator">
+      <span class="arrow"></span>
+    </div>
+  </section>
 
-    <p class="footnote">До встречи! Если нужна помощь с маршрутами — напишите нам.</p>
-  </main>
+  <!-- Страница 3: Обращение + календарь (Июль 2026, выделено 18) -->
+  <section class="page page-invite" id="page3" aria-label="Мы ждём вас">
+    <div class="invite-wrap">
+      <h2 class="title-hero">ДОРОГИЕ РОДНЫЕ<br>И ДРУЗЬЯ!</h2>
+      <p class="lead">
+        Спешим сообщить радостную новость — мы женимся! В этот день мы очень хотим оказаться в окружении самых близких и дорогих для нас людей.
+      </p>
+
+      <div class="calendar-card reveal-up">
+        <div class="calendar-title">МЫ ЖДЁМ ВАС</div>
+        <div class="month">ИЮЛЬ</div>
+        <div class="cal-grid">
+          <div class="wday">ПН</div><div class="wday">ВТ</div><div class="wday">СР</div><div class="wday">ЧТ</div><div class="wday">ПТ</div><div class="wday">СБ</div><div class="wday">ВС</div>
+          <!-- Июль 2026 начинается в среду (СР). Пустые клетки для выравнивания: ПН, ВТ -->
+          <div class="empty"></div><div class="empty"></div>
+          <div class="d">1</div><div class="d">2</div><div class="d">3</div><div class="d">4</div><div class="d">5</div>
+          <div class="d">6</div><div class="d">7</div><div class="d">8</div><div class="d">9</div><div class="d">10</div><div class="d">11</div><div class="d">12</div>
+          <div class="d">13</div><div class="d">14</div><div class="d">15</div><div class="d">16</div><div class="d">17</div>
+          <div class="d active">18</div>
+          <div class="d">19</div><div class="d">20</div><div class="d">21</div><div class="d">22</div><div class="d">23</div><div class="d">24</div><div class="d">25</div>
+          <div class="d">26</div><div class="d">27</div><div class="d">28</div><div class="d">29</div><div class="d">30</div><div class="d">31</div>
+        </div>
+        <p class="note">Не пропустите важный день — день нашей свадьбы!</p>
+      </div>
+
+      <div class="date-decor">18 / 07 / 26</div>
+    </div>
+  </section>
+
+  <!-- Страница 4: Локация (две карточки) -->
+  <section class="page page-locations" id="page4" aria-label="Локация">
+    <h2 class="title-hero">ЛОКАЦИЯ</h2>
+
+    <div class="location-card reveal-up">
+      <div class="loc-kind">ЗАГС</div>
+      <div class="loc-name">Название площадки — заглушка</div>
+      <div class="loc-addr">г. Город, ул. Улица, дом 1</div>
+      <div class="loc-photo">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" alt="Фото локации (замените)">
+      </div>
+      <a class="btn-outline" href="https://yandex.ru/maps/?text=%D0%97%D0%B0%D0%B3%D1%81%20%D0%B0%D0%B4%D1%80%D0%B5%D1%81" target="_blank" rel="noopener">посмотреть на карте</a>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="location-card reveal-up">
+      <div class="loc-kind">РЕСТОРАН </div>
+      <div class="loc-name">Название ресторана — заглушка</div>
+      <div class="loc-addr">г. Город, ул. Улица, дом 2</div>
+      <div class="loc-photo">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt="Фото локации (замените)">
+      </div>
+      <a class="btn-outline" href="https://yandex.ru/maps/?text=%D0%A0%D0%B5%D1%81%D1%82%D0%BE%D1%80%D0%B0%D0%BD%20%D0%B0%D0%B4%D1%80%D0%B5%D1%81" target="_blank" rel="noopener">посмотреть на карте</a>
+    </div>
+  </section>
+
+  <!-- Страница 5: Тайминг -->
+  <section class="page page-timing" id="page5" aria-label="Тайминг">
+    <h2 class="title-hero">ТАЙМИНГ</h2>
+    <div class="timeline">
+      <div class="time-item reveal-up">
+        <img class="icon" src="https://via.placeholder.com/80x80?text=I1" alt="Иконка (замените)">
+        <div class="time">15:00</div>
+        <div class="what">Сбор гостей</div>
+      </div>
+      <div class="time-item reveal-up">
+        <img class="icon" src="https://via.placeholder.com/80x80?text=I2" alt="Иконка (замените)">
+        <div class="time">15:30</div>
+        <div class="what">Выездная регистрация</div>
+      </div>
+      <div class="time-item reveal-up">
+        <img class="icon" src="https://via.placeholder.com/80x80?text=I3" alt="Иконка (замените)">
+        <div class="time">16:15</div>
+        <div class="what">Банкет</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Страница 6: Дресс-код / Color wedding -->
+  <section class="page page-dresscode" id="page6" aria-label="Дресс-код">
+    <h2 class="title-hero">ДРЕСС-КОД</h2>
+    <p class="lead small">Будем рады видеть вас в красивых нарядах в палитре нашей свадьбы</p>
+
+    <div class="colorw-wrap">
+      <div class="colorw-photo reveal-left">
+        <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop" alt="Фото (замените)">
+      </div>
+      <div class="colorw-title reveal-up">Color wedding</div>
+    </div>
+  </section>
+
+  <!-- Страница 7: Пожелания (слайдер 2 текста) -->
+  <section class="page page-wishes" id="page7" aria-label="Пожелания">
+    <h2 class="title-hero">ПОЖЕЛАНИЯ</h2>
+    <div class="wishes-card reveal-up">
+      <button class="nav prev" aria-label="Назад" data-dir="-1">‹</button>
+      <div class="slides">
+        <div class="slide" data-idx="0">
+          Лучшая поддержка для нас — ваши искренние пожелания и лучезарные улыбки, остальное можно поместить в конверт
+        </div>
+        <div class="slide" data-idx="1">
+          Мы ценим традиции, но, к сожалению, не сможем в полной мере насладиться красотой цветов… Поэтому будем рады любой другой альтернативе — например, бутылочке хорошего вина
+        </div>
+      </div>
+      <button class="nav next" aria-label="Вперёд" data-dir="1">›</button>
+      <div class="dots" role="tablist" aria-label="Индикатор">
+        <button class="dot is-active" data-to="0" aria-selected="true"></button>
+        <button class="dot" data-to="1" aria-selected="false"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Страница 8: Обратный отсчёт -->
+  <section class="page page-countdown" id="page8" aria-label="До свадьбы осталось">
+    <div class="count-card reveal-up">
+      <h2 class="title-hero">ДО СВАДЬБЫ ОСТАЛОСЬ</h2>
+      <div class="count-grid" aria-live="polite">
+        <div class="cell"><div class="num" id="cd-days">0</div><div class="lab">дней</div></div>
+        <div class="cell"><div class="num" id="cd-hours">0</div><div class="lab">часов</div></div>
+        <div class="cell"><div class="num" id="cd-minutes">0</div><div class="lab">минут</div></div>
+        <div class="cell"><div class="num" id="cd-seconds">0</div><div class="lab">секунд</div></div>
+      </div>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
