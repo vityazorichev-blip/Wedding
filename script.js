@@ -1,35 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Музыка и конверт
   const audio = document.getElementById('bgAudio');
-  const overlay = document.getElementById('envelopeOverlay');
-  const sealBtn = document.getElementById('sealImgBtn');
+  const envelopeScreen = document.getElementById('envelopeScreen');
+  const sealBtn = document.getElementById('sealBtn');
 
   function openEnvelope() {
-    if (!overlay || overlay.classList.contains('open')) return;
-
-    // запуск музыки по клику
-    if (audio) audio.play().catch(()=>{});
-
-    // анимация печати, после — разъезд створок
-    if (sealBtn) {
-      sealBtn.classList.add('fall');
-      setTimeout(() => {
-        sealBtn.style.display = 'none';
-        overlay.classList.add('open');
-
-        // скрыть оверлей после завершения разъезда
-        setTimeout(() => {
-          overlay.classList.add('hidden');
-        }, 1100); // соответствует transition створок
-      }, 480); // окончание dropOut
-    } else {
-      // запасной вариант
-      overlay.classList.add('open');
-      setTimeout(() => overlay.classList.add('hidden'), 1100);
+    if (!envelopeScreen.classList.contains('open')) {
+      envelopeScreen.classList.add('open');
+      // запуск музыки после клика
+      if (audio) audio.play().catch(()=>{});
     }
   }
-
-  if (sealBtn) sealBtn.addEventListener('click', (e)=>{ e.stopPropagation(); openEnvelope(); });
-});
+  if (sealBtn) {
+    sealBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openEnvelope();
+    });
+  }
 
   // Reveal-наблюдатели (плавные появления)
   const ioUp = new IntersectionObserver((entries) => {
@@ -145,3 +132,4 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
 
 });
+
