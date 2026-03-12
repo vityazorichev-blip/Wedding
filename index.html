@@ -16,26 +16,26 @@
   <audio id="bgAudio" preload="auto" src="1_klass_-_Sukiny_deti_(Zvyki.com).mp3" loop></audio>
 
   <!-- Страница 1: Конверт (две створки, печать-кнопка) -->
-  <section class="envelope-overlay" id="envelopeOverlay" aria-label="Открыть приглашение">
-  <!-- Верхняя и нижняя створки -->
-  <div class="flap2 flap2-top"></div>
-  <div class="flap2 flap2-bottom"></div>
+   <section class="envelope-screen" id="envelopeScreen" aria-label="Открыть приглашение">
+    <!-- Верхняя створка -->
+    <div class="flap flap-top"></div>
+    <!-- Нижняя створка -->
+    <div class="flap flap-bottom"></div>
 
-  <!-- Подглядывающие боковые края второй страницы -->
-  <div class="peek2 peek2-left"></div>
-  <div class="peek2 peek2-right"></div>
+    <!-- Подглядывающие боковые края второй страницы -->
+    <div class="peek peek-left"></div>
+    <div class="peek peek-right"></div>
 
-  <!-- Печать (PNG, заглушка) -->
-  <button class="seal-img-btn" id="sealImgBtn" aria-label="Открыть">
-    <img src="https://via.placeholder.com/240x240.png?text=Seal" alt="Печать" width="120" height="120">
-  </button>
+    <!-- Контент -->
+    <div class="envelope-center">
+      <h1 class="envelope-title">ПРИГЛАШЕНИЕ<br>НА СВАДЬБУ</h1>
+      <button class="seal-btn" id="sealBtn" aria-label="Открыть">
+        <span class="seal-emboss">S&nbsp;V</span>
+      </button>
+      <div class="envelope-hint">нажмите,<br>чтобы открыть</div>
+    </div>
+  </section>
 
-  <!-- Текст -->
-  <div class="envelope-overlay-center">
-    <h1 class="envelope-title">ПРИГЛАШЕНИЕ<br>НА СВАДЬБУ</h1>
-    <div class="envelope-hint">нажмите,<br>чтобы открыть</div>
-  </div>
-</section>
 
 
   <!-- Страница 2: Полароидные фото + имена -->
@@ -184,6 +184,7 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
