@@ -21,87 +21,45 @@ body{
 .lead.small{ font-size:14px; color:#4b5f79 }
 
 /* Страница 1 — Конверт */
-.envelope-overlay{
-  position:fixed; inset:0; z-index:50; pointer-events:auto;
-  display:flex; align-items:center; justify-content:center; overflow:hidden;
-  background:linear-gradient(180deg,#f6f7f9,#f1f3f6);
+.envelope-screen{
+  position:relative; min-height:100dvh; overflow:hidden; background:linear-gradient(180deg,#f6f7f9,#f1f3f6);
+  display:flex; align-items:center; justify-content:center;
 }
-.envelope-overlay.hidden{ display:none }
-
-/* Боковые “подглядывания” второй страницы */
-.peek2{
-  position:absolute; top:0; bottom:0; width:22px; background:#e6e9ee; opacity:.7; z-index:0;
-}
-.peek2-left{ left:0 } .peek2-right{ right:0 }
-
-/* Две створки: сходятся округлыми “вершинами” в центре */
-.flap2{
+.flap{
   position:absolute; left:0; right:0; height:55%;
   background:linear-gradient(180deg,#f1f2f5,#e9edf2);
-  box-shadow:0 10px 24px rgba(0,0,0,.08);
+  box-shadow:var(--shadow);
   transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
   will-change:transform;
 }
-
-/* Формируем острые вершины через clip-path с закруглением ~60px
-   Трюк: используем маску радиуса по центру через псевдоэлемент */
-.flap2-top{ top:0; }
-.flap2-bottom{ bottom:0; }
-
-.flap2-top::after,
-.flap2-bottom::after{
-  content:""; position:absolute; left:50%; width:120px; height:120px; margin-left:-60px;
-  background:#000; border-radius:50%;
-  filter:blur(0.0001px); /* стабильность рендеринга */
+.flap-top{ top:0; transform-origin:top center; clip-path:polygon(0 100%, 50% 0, 100% 100%) }
+.flap-bottom{ bottom:0; transform-origin:bottom center; clip-path:polygon(0 0, 50% 100%, 100% 0) }
+/* Подглядывание второй страницы */
+.peek{
+  position:absolute; top:0; bottom:0; width:22px; background:#e6e9ee; opacity:.7; z-index:0;
 }
+.peek-left{ left:0; }
+.peek-right{ right:0; }
 
-/* “Вырезаем” круг из вершины, чтобы получить скруглённый острый угол */
-.flap2-top{
-  clip-path:polygon(0 100%, 50% 0, 100% 100%);
+.envelope-center{ position:relative; text-align:center; z-index:2; padding:0 24px; }
+.envelope-title{ margin:0 0 18px; font-size:30px; color:#1b1f2a; letter-spacing:.4px }
+.envelope-hint{ margin-top:16px; font-size:14px; color:#7a8596 }
+.seal-btn{
+  width:120px; height:120px; border-radius:50%; border:none; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+  background:#f0f2f5; box-shadow:
+    inset 0 2px 2px rgba(255,255,255,.9),
+    inset 0 -2px 4px rgba(0,0,0,.06),
+    0 10px 24px rgba(0,0,0,.12);
+  transition:transform .12s ease, filter .2s ease;
 }
-.flap2-top::after{
-  bottom:-60px; /* полукруг по вершине */
-  box-shadow:0 60px 0 0 #f6f7f9; /* цвет фона — маска */
+.seal-btn:active{ transform:translateY(1px) }
+.seal-emboss{
+  display:inline-block; color:#8f96a1; font-weight:700; letter-spacing:.3px;
+  text-shadow:0 1px 0 #fff, 0 -1px 0 rgba(0,0,0,.05);
 }
-
-.flap2-bottom{
-  clip-path:polygon(0 0, 50% 100%, 100% 0);
-}
-.flap2-bottom::after{
-  top:-60px;
-  box-shadow:0 -60px 0 0 #f6f7f9;
-}
-
-/* Заголовок/подсказка поверх */
-.envelope-overlay-center{
-  position:relative; text-align:center; z-index:2; padding:0 24px; color:#1b1f2a;
-}
-.envelope-title{ margin:0 0 18px; font-size:30px; letter-spacing:.4px }
-.envelope-hint{ font-size:14px; color:#7a8596 }
-
-/* Печать PNG 120px по центру стыка */
-.seal-img-btn{
-  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); z-index:3;
-  width:120px; height:120px; border:none; padding:0; background:transparent; cursor:pointer;
-}
-.seal-img-btn img{ width:120px; height:120px; display:block; pointer-events:none }
-
-/* Состояние открытия: створки уезжают вверх/вниз */
-.envelope-overlay.open .flap2-top{ transform:translateY(-120%) }
-.envelope-overlay.open .flap2-bottom{ transform:translateY(120%) }
-
-/* Анимация “падения” печати: скейл + смещение вниз + исчезновение */
-@keyframes dropOut{
-  0%{ transform:translate(-50%,-50%) scale(1); opacity:1 }
-  40%{ transform:translate(-50%,-40%) scale(0.98); opacity:.95 }
-  100%{ transform:translate(-50%,20%) scale(0.9); opacity:0 }
-}
-.seal-img-btn.fall{ animation:dropOut .5s ease forwards }
-
-/* Подстройка под высокие экраны */
-@media (min-height:800px){
-  .envelope-title{ font-size:32px }
-}
+/* Открытие: створки уезжают вверх/вниз */
+.envelope-screen.open .flap-top{ transform:translateY(-120%) }
+.envelope-screen.open .flap-bottom{ transform:translateY(120%) }
 
 /* Страница 2 — Полароиды */
 .page-polaroids{
@@ -259,3 +217,4 @@ body{
 
 
 /* Конец стилей */
+
