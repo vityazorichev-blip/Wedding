@@ -20,46 +20,65 @@ body{
 .lead{ max-width:520px; text-align:center; color:#3e5874; margin:4px auto 16px }
 .lead.small{ font-size:14px; color:#4b5f79 }
 
-/* Страница 1 — Конверт */
-.envelope-screen{
-  position:relative; min-height:100dvh; overflow:hidden; background:linear-gradient(180deg,#f6f7f9,#f1f3f6);
-  display:flex; align-items:center; justify-content:center;
+/* Оверлей-конверт — поверх второй страницы */
+.envelope-overlay{
+  position:fixed; inset:0; z-index:50; pointer-events:auto;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+  background:linear-gradient(180deg,#f6f7f9,#f1f3f6);
 }
-.flap{
+.envelope-overlay.hidden{ display:none }
+
+/* Боковые “просветы” второй страницы */
+.peek2{
+  position:absolute; top:0; bottom:0; width:22px; background:#e6e9ee; opacity:.7; z-index:0;
+}
+.peek2-left{ left:0 } .peek2-right{ right:0 }
+
+/* Две створки, сходящиеся острыми вершинами с радиусом 60px */
+.flap2{
   position:absolute; left:0; right:0; height:55%;
   background:linear-gradient(180deg,#f1f2f5,#e9edf2);
-  box-shadow:var(--shadow);
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
   transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
   will-change:transform;
 }
-.flap-top{ top:0; transform-origin:top center; clip-path:polygon(0 100%, 50% 0, 100% 100%) }
-.flap-bottom{ bottom:0; transform-origin:bottom center; clip-path:polygon(0 0, 50% 100%, 100% 0) }
-/* Подглядывание второй страницы */
-.peek{
-  position:absolute; top:0; bottom:0; width:22px; background:#e6e9ee; opacity:.7; z-index:0;
-}
-.peek-left{ left:0; }
-.peek-right{ right:0; }
+.flap2-top{ top:0; clip-path:polygon(0 100%, 50% 0, 100% 100%) }
+.flap2-bottom{ bottom:0; clip-path:polygon(0 0, 50% 100%, 100% 0) }
 
-.envelope-center{ position:relative; text-align:center; z-index:2; padding:0 24px; }
-.envelope-title{ margin:0 0 18px; font-size:30px; color:#1b1f2a; letter-spacing:.4px }
-.envelope-hint{ margin-top:16px; font-size:14px; color:#7a8596 }
-.seal-btn{
-  width:120px; height:120px; border-radius:50%; border:none; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
-  background:#f0f2f5; box-shadow:
-    inset 0 2px 2px rgba(255,255,255,.9),
-    inset 0 -2px 4px rgba(0,0,0,.06),
-    0 10px 24px rgba(0,0,0,.12);
-  transition:transform .12s ease, filter .2s ease;
+/* Маски для скруглённой вершины (радиус 60px) */
+.flap2-top::after,
+.flap2-bottom::after{
+  content:""; position:absolute; left:50%; width:120px; height:120px; margin-left:-60px;
+  background:#000; border-radius:50%;
 }
-.seal-btn:active{ transform:translateY(1px) }
-.seal-emboss{
-  display:inline-block; color:#8f96a1; font-weight:700; letter-spacing:.3px;
-  text-shadow:0 1px 0 #fff, 0 -1px 0 rgba(0,0,0,.05);
+.flap2-top::after{ bottom:-60px; box-shadow:0 60px 0 0 #f6f7f9 }
+.flap2-bottom::after{ top:-60px; box-shadow:0 -60px 0 0 #f6f7f9 }
+
+/* Заголовок/подсказка на оверлее */
+.envelope-overlay-center{
+  position:relative; text-align:center; z-index:2; padding:0 24px; color:#1b1f2a;
 }
-/* Открытие: створки уезжают вверх/вниз */
-.envelope-screen.open .flap-top{ transform:translateY(-120%) }
-.envelope-screen.open .flap-bottom{ transform:translateY(120%) }
+.envelope-title{ margin:0 0 18px; font-size:30px; letter-spacing:.4px }
+.envelope-hint{ font-size:14px; color:#7a8596 }
+
+/* Печать PNG 120px по центру */
+.seal-img-btn{
+  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); z-index:3;
+  width:120px; height:120px; border:none; padding:0; background:transparent; cursor:pointer;
+}
+.seal-img-btn img{ width:120px; height:120px; display:block; pointer-events:none }
+
+/* Открытие конверта */
+.envelope-overlay.open .flap2-top{ transform:translateY(-120%) }
+.envelope-overlay.open .flap2-bottom{ transform:translateY(120%) }
+
+/* Анимация падения печати */
+@keyframes dropOut{
+  0%{ transform:translate(-50%,-50%) scale(1); opacity:1 }
+  40%{ transform:translate(-50%,-40%) scale(0.98); opacity:.95 }
+  100%{ transform:translate(-50%,20%) scale(0.9); opacity:0 }
+}
+.seal-img-btn.fall{ animation:dropOut .5s ease forwards }
 
 /* Страница 2 — Полароиды */
 .page-polaroids{
@@ -67,7 +86,6 @@ body{
     linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.4)),
     url('https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
 }
-
 .polaroids-wrap{
   position:relative; width:100%; max-width:560px; height:420px;
   display:flex; align-items:center; justify-content:center;
@@ -79,13 +97,11 @@ body{
 }
 .polaroid img{ width:100%; height:220px; object-fit:cover; border-radius:4px }
 .polaroid .caption{ font-size:12px; color:#4b5f79; margin-top:8px }
-
-.p-left{ transform:rotate(-4deg) translate(-14px, -6px); z-index:2; }
-.p-right{ transform:rotate(6deg) translate(18px, 16px); z-index:1; }
+.p-left{ transform:rotate(-4deg) translate(-14px, -6px); z-index:2 }
+.p-right{ transform:rotate(6deg) translate(18px, 16px); z-index:1 }
 
 .names{
-  margin-top:36px; font-size:28px; text-align:center; color:#1b1f2a;
-  letter-spacing:.4px;
+  margin-top:36px; font-size:28px; text-align:center; color:#1b1f2a; letter-spacing:.4px;
 }
 
 /* Индикатор-стрелка между 2 и 3 страницей */
@@ -145,7 +161,8 @@ body{
     url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
 }
 .timeline{ width:100%; max-width:520px; display:flex; flex-direction:column; align-items:center; gap:22px }
-.time-item{ text-align:center }
+.time-item{ text-align:center; opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease }
+.time-item.show{ opacity:1; transform:none }
 .icon{ width:72px; height:72px; object-fit:contain; opacity:.9 }
 .time{ font-style:italic; margin-top:6px; color:#2b3447 }
 .what{ text-transform:uppercase; font-size:12px; letter-spacing:.3px; color:#4b5f79 }
@@ -153,11 +170,15 @@ body{
 /* Страница 6 — Дресс-код / Color wedding */
 .page-dresscode{ background:#fff }
 .colorw-wrap{ width:100%; max-width:620px; position:relative; padding:6px 10px }
+.colorw-photo.reveal-left{ opacity:0; transform:translateX(-18px); transition:opacity .6s ease, transform .6s ease }
+.colorw-photo.reveal-left.show{ opacity:1; transform:none }
 .colorw-photo img{ width:100%; height:260px; object-fit:cover; border-radius:16px; box-shadow:var(--shadow) }
 .colorw-title{
   position:absolute; left:10%; bottom:14%; transform:translateY(8px);
   font-style:italic; font-size:40px; color:#4aa0ff; -webkit-text-stroke:1px #fff; text-shadow:0 4px 18px rgba(0,0,0,.12);
 }
+.reveal-up{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease }
+.reveal-up.show{ opacity:1; transform:none }
 
 /* Страница 7 — Пожелания */
 .page-wishes{
@@ -170,7 +191,7 @@ body{
   padding:18px 44px; position:relative; min-height:140px;
 }
 .slides{ overflow:hidden }
-.slide{ opacity:0; transform:translateX(24px); transition:opacity .5s ease, transform .5s ease; }
+.slide{ opacity:0; transform:translateX(24px); transition:opacity .5s ease, transform .5s ease }
 .slide.is-active{ opacity:1; transform:none }
 .nav{
   position:absolute; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; border:1px solid rgba(0,0,0,.15);
@@ -195,14 +216,8 @@ body{
 .num{ font-size:28px; color:#1b1f2a }
 .lab{ font-size:12px; color:#6b7c93 }
 
-/* Reveal-анимации */
-.reveal-up{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease }
-.reveal-up.show{ opacity:1; transform:none }
-.reveal-left{ opacity:0; transform:translateX(-18px); transition:opacity .6s ease, transform .6s ease }
-.reveal-left.show{ opacity:1; transform:none }
-.reveal-float{
-  animation:float 5s ease-in-out infinite; /* качание */
-}
+/* Качание полароидов */
+.reveal-float{ animation:float 5s ease-in-out infinite }
 @keyframes float{
   0%{ transform:rotate(-2deg) translateY(0) }
   50%{ transform:rotate(2deg) translateY(3px) }
@@ -214,7 +229,6 @@ body{
   .names{ font-size:24px }
   .colorw-title{ font-size:34px }
 }
-
 
 /* Конец стилей */
 
