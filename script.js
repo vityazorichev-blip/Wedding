@@ -1,16 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Музыка и конверт
+  // Музыка и конверт-оверлей
   const audio = document.getElementById('bgAudio');
-  const envelopeScreen = document.getElementById('envelopeScreen');
-  const sealBtn = document.getElementById('sealBtn');
+  const overlay = document.getElementById('envelopeOverlay');
+  const sealBtn = document.getElementById('sealImgBtn');
 
   function openEnvelope() {
-    if (!envelopeScreen.classList.contains('open')) {
-      envelopeScreen.classList.add('open');
-      // запуск музыки после клика
-      if (audio) audio.play().catch(()=>{});
+    if (!overlay || overlay.classList.contains('open')) return;
+
+    // запуск музыки по клику
+    if (audio) audio.play().catch(()=>{});
+
+    // анимация печати, затем разъезд створок и скрытие
+    if (sealBtn) {
+      sealBtn.classList.add('fall');
+      setTimeout(() => {
+        sealBtn.style.display = 'none';
+        overlay.classList.add('open');
+
+        // скрыть оверлей после завершения разъезда створок
+        setTimeout(() => {
+          overlay.classList.add('hidden');
+        }, 1100); // длительность transition у створок
+      }, 480); // окончание dropOut
+    } else {
+      overlay.classList.add('open');
+      setTimeout(() => overlay.classList.add('hidden'), 1100);
     }
   }
+
   if (sealBtn) {
     sealBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -30,27 +47,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal-up, .reveal-left').forEach(el => ioUp.observe(el));
 
-  // Тайминг: небольшое поочерёдное появление
-  const timingItems = Array.from(document.querySelectorAll('.timeline .time-item'));
-  const ioTiming = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const items = timingItems;
-        items.forEach((it, i) => {
-          setTimeout(() => it.classList.add('show'), i * 120);
-        });
-        ioTiming.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.2 });
+  // Тайминг: поочередное появление пунктов
   const timingContainer = document.querySelector('.timeline');
-  if (timingContainer) ioTiming.observe(timingContainer);
+  if (timingContainer) {
+    const items = Array.from(timingContainer.querySelectorAll('.time-item'));
+    const ioTiming = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          items.forEach((it, i) => setTimeout(() => it.classList.add('show'), i * 120));
+          ioTiming.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    ioTiming.observe(timingContainer);
+  }
 
-  // Полароиды: добавить класс show к обёрткам (для совместимости, если потребуется)
-  const polaroidsWrap = document.querySelector('.polaroids-wrap');
-  if (polaroidsWrap) ioUp.observe(polaroidsWrap);
-
-  // Слайдер "Пожелания" (2 слайда, автопрокрутка + стрелки + точки)
+  // Слайдер “Пожелания”: 2 слайда, автопрокрутка + стрелки + точки
   const slider = document.querySelector('.wishes-card');
   if (slider) {
     const slides = Array.from(slider.querySelectorAll('.slide'));
@@ -81,9 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopAuto() {
       if (autoTimer) clearInterval(autoTimer);
     }
-    function restartAuto() {
-      startAuto();
-    }
+    function restartAuto() { startAuto(); }
 
     // init
     setActive(0);
@@ -93,14 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) prevBtn.addEventListener('click', () => prev());
     dots.forEach((d, i) => d.addEventListener('click', () => { setActive(i); restartAuto(); }));
 
-    // Останавливать автопрокрутку при взаимодействии пользователя (по желанию)
+    // Пауза автопрокрутки при взаимодействии
     slider.addEventListener('pointerdown', stopAuto);
     slider.addEventListener('pointerup', startAuto);
     slider.addEventListener('mouseenter', stopAuto);
     slider.addEventListener('mouseleave', startAuto);
   }
 
-  // Обратный отсчёт (страница 8)
+  // Обратный отсчёт (18 июля 2026, 15:30)
   const target = new Date('2026-07-18T15:30:00');
   const daysEl = document.getElementById('cd-days');
   const hoursEl = document.getElementById('cd-hours');
@@ -130,6 +140,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const timerId = setInterval(updateCountdown, 1000);
   updateCountdown();
-
 });
-
