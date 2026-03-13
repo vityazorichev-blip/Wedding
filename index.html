@@ -5,40 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Свадебное приглашение — Виктор и Софья</title>
   <meta name="description" content="Электронное приглашение на свадьбу Виктора и Софьи"/>
-  <!-- Шрифт -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <!-- Музыка (замените src на свой mp3 https) -->
-  <audio id="bgAudio" preload="auto" src="1_klass_-_Sukiny_deti_(Zvyki.com).mp3" loop></audio>
 
-  <!-- Страница 1: Конверт (две створки, печать-кнопка) -->
-   <section class="envelope-screen" id="envelopeScreen" aria-label="Открыть приглашение">
-    <!-- Верхняя створка -->
-    <div class="flap flap-top"></div>
-    <!-- Нижняя створка -->
-    <div class="flap flap-bottom"></div>
+  <!-- Музыка: замените src на ваш файл (расположите рядом с index.html) -->
+  <audio id="bgAudio" preload="auto" src="./your-track.mp3" loop></audio>
 
-    <!-- Подглядывающие боковые края второй страницы -->
-    <div class="peek peek-left"></div>
-    <div class="peek peek-right"></div>
+  <!-- Оверлей-конверт поверх второй страницы -->
+  <section class="envelope-overlay" id="envelopeOverlay" aria-label="Открыть приглашение">
+    <!-- Верхняя и нижняя створки -->
+    <div class="flap2 flap2-top"></div>
+    <div class="flap2 flap2-bottom"></div>
 
-    <!-- Контент -->
-    <div class="envelope-center">
+    <!-- Узкие боковые “просветы” второй страницы -->
+    <div class="peek2 peek2-left"></div>
+    <div class="peek2 peek2-right"></div>
+
+    <!-- Печать PNG (заглушка 120px) -->
+    <button class="seal-img-btn" id="sealImgBtn" aria-label="Открыть">
+      <img src="https://via.placeholder.com/240x240.png?text=Seal" alt="Печать" width="120" height="120">
+    </button>
+
+    <!-- Текст поверх конверта -->
+    <div class="envelope-overlay-center">
       <h1 class="envelope-title">ПРИГЛАШЕНИЕ<br>НА СВАДЬБУ</h1>
-      <button class="seal-btn" id="sealBtn" aria-label="Открыть">
-        <span class="seal-emboss">S&nbsp;V</span>
-      </button>
       <div class="envelope-hint">нажмите,<br>чтобы открыть</div>
     </div>
   </section>
 
-
-
-  <!-- Страница 2: Полароидные фото + имена -->
+  <!-- Страница 2: Полароидные фотографии и имена -->
   <section class="page page-polaroids" id="page2" aria-label="Знакомство">
     <div class="polaroids-wrap">
       <div class="polaroid p-left reveal-float">
@@ -56,7 +55,7 @@
     </div>
   </section>
 
-  <!-- Страница 3: Обращение + календарь (Июль 2026, выделено 18) -->
+  <!-- Страница 3: Обращение + календарь (ИЮЛЬ 2026, выделено 18) -->
   <section class="page page-invite" id="page3" aria-label="Мы ждём вас">
     <div class="invite-wrap">
       <h2 class="title-hero">ДОРОГИЕ РОДНЫЕ<br>И ДРУЗЬЯ!</h2>
@@ -69,7 +68,7 @@
         <div class="month">ИЮЛЬ</div>
         <div class="cal-grid">
           <div class="wday">ПН</div><div class="wday">ВТ</div><div class="wday">СР</div><div class="wday">ЧТ</div><div class="wday">ПТ</div><div class="wday">СБ</div><div class="wday">ВС</div>
-          <!-- Июль 2026 начинается в среду (СР). Пустые клетки для выравнивания: ПН, ВТ -->
+          <!-- Июль 2026 начинается в среду: СР, поэтому 2 пустые ячейки -->
           <div class="empty"></div><div class="empty"></div>
           <div class="d">1</div><div class="d">2</div><div class="d">3</div><div class="d">4</div><div class="d">5</div>
           <div class="d">6</div><div class="d">7</div><div class="d">8</div><div class="d">9</div><div class="d">10</div><div class="d">11</div><div class="d">12</div>
@@ -85,7 +84,7 @@
     </div>
   </section>
 
-  <!-- Страница 4: Локация (две карточки) -->
+  <!-- Страница 4: Локации -->
   <section class="page page-locations" id="page4" aria-label="Локация">
     <h2 class="title-hero">ЛОКАЦИЯ</h2>
 
@@ -102,7 +101,7 @@
     <div class="divider-line"></div>
 
     <div class="location-card reveal-up">
-      <div class="loc-kind">РЕСТОРАН </div>
+      <div class="loc-kind">РЕСТОРАН «LOFT HALL»</div>
       <div class="loc-name">Название ресторана — заглушка</div>
       <div class="loc-addr">г. Город, ул. Улица, дом 2</div>
       <div class="loc-photo">
@@ -117,17 +116,17 @@
     <h2 class="title-hero">ТАЙМИНГ</h2>
     <div class="timeline">
       <div class="time-item reveal-up">
-        <img class="icon" src="https://via.placeholder.com/80x80?text=I1" alt="Иконка (замените)">
+        <img class="icon" src="https://via.placeholder.com/96x96?text=I1" alt="Иконка (замените)">
         <div class="time">15:00</div>
         <div class="what">Сбор гостей</div>
       </div>
       <div class="time-item reveal-up">
-        <img class="icon" src="https://via.placeholder.com/80x80?text=I2" alt="Иконка (замените)">
+        <img class="icon" src="https://via.placeholder.com/96x96?text=I2" alt="Иконка (замените)">
         <div class="time">15:30</div>
         <div class="what">Выездная регистрация</div>
       </div>
       <div class="time-item reveal-up">
-        <img class="icon" src="https://via.placeholder.com/80x80?text=I3" alt="Иконка (замените)">
+        <img class="icon" src="https://via.placeholder.com/96x96?text=I3" alt="Иконка (замените)">
         <div class="time">16:15</div>
         <div class="what">Банкет</div>
       </div>
@@ -147,7 +146,7 @@
     </div>
   </section>
 
-  <!-- Страница 7: Пожелания (слайдер 2 текста) -->
+  <!-- Страница 7: Пожелания (слайдер из 2 текстов) -->
   <section class="page page-wishes" id="page7" aria-label="Пожелания">
     <h2 class="title-hero">ПОЖЕЛАНИЯ</h2>
     <div class="wishes-card reveal-up">
@@ -184,6 +183,8 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
